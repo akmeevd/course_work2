@@ -1,15 +1,33 @@
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Month;
-import java.time.Year;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
-    private static final List<Task> tasks = new ArrayList<>();
+    private static Map<Integer, Task> tasks = new HashMap<>();
+
+    public static void addTask(Task task) {
+        tasks.put(task.getId(), task);
+    }
+
+    private static void removeTask(int id) {
+        tasks.remove(id);
+    }
+
+    public static void getAllTasksInSpecifiedDay(LocalDate specifiedDay) {
+        for (Map.Entry<Integer, Task> task : tasks.entrySet()) {
+            if (task.getValue().appearsIn(specifiedDay)) {
+                System.out.println(task);
+            }
+
+        }
+    }
+
 
     public static void main(String[] args) throws WrongDataOfTask {
+        Task task = new DailyTask("Поход в магазин", "сходить в магазин за необходимыми продуктами", Task.TypeOfTask.privateTask);
+        Task task1 = new WeeklyTask("уборка", "прибраться дома", Task.TypeOfTask.privateTask);
+        Task task2 = new MonthlyTask("Оплата ЖКХ", "оплатить за дом", Task.TypeOfTask.privateTask);
+        Task task3 = new AnnualTask("Набор баллов НМО", "набрать 50 баллов ЗЕТ на работе за год", Task.TypeOfTask.WorkingTask);
+        Task task4 = new SingleTask("Тренировка", "позаниматься спортом", Task.TypeOfTask.privateTask);
         try (Scanner scanner = new Scanner(System.in)) {
             label:
             while (true) {
@@ -22,12 +40,14 @@ public class Main {
                             inputTask(scanner);
                             break;
                         case 2:
-                            System.out.println("Введите id задачи: ");
+                            System.out.print("Введите id задачи: ");
                             int id = scanner.nextInt();
                             removeTask(id);
                             break;
                         case 3:
-                            getAllTasksInThisDay();
+                            System.out.print("Введите дату, чтоб узнать задачи на этот день:");
+                            LocalDate specifiedDay = LocalDate.parse(scanner.next());
+                            getAllTasksInSpecifiedDay(specifiedDay);
                             break;
                         case 0:
                             break label;
@@ -41,35 +61,10 @@ public class Main {
     }
 
 
-    private static void inputTask(Scanner scanner) throws WrongDataOfTask {
+    private static void inputTask(Scanner scanner) {
         System.out.print("Введите название задачи: ");
         String taskName = scanner.next();
-        System.out.print("Введите описание задачи: ");
-        String descriptionTask = scanner.next();
-        System.out.print("1. личная задача\n2. рабочая задача\nВыберите тип задачи: ");
-        int typeTask = scanner.nextInt();
-        System.out.print("1.однократная задача\n2.ежедневная задача\n3.еженедельная задача\n4.ежемесячная задача\n5.ежегодная задача\nВведите номер задачи: ");
-        int frequencyTask = scanner.nextInt();
-        Task task = new Task(taskName, descriptionTask);
-        if (typeTask == 1) {
-            task.setTypeOfTask(Task.TypeOfTask.privateTask);
-        } else if (typeTask == 2) {
-            task.setTypeOfTask(Task.TypeOfTask.WorkingTask);
-        }
-        if (frequencyTask == 1) {
-            task.setFrequencyTask(Task.FrequencyTask.single);
-        } else if (frequencyTask == 2) {
-            task.setFrequencyTask(Task.FrequencyTask.daily);
-        } else if (frequencyTask == 3) {
-            task.setFrequencyTask(Task.FrequencyTask.weekly);
-        } else if (frequencyTask == 4) {
-            task.setFrequencyTask(Task.FrequencyTask.monthly);
-        } else if (frequencyTask == 5) {
-            task.setFrequencyTask(Task.FrequencyTask.annual);
-        }
-        tasks.add(task);
     }
-
     private static void printMenu() {
         System.out.println("1. Добавить задачу");
         System.out.println("2. Удалить задачу");
@@ -78,20 +73,5 @@ public class Main {
 
     }
 
-    private static void removeTask(int id) {
-        for (int i = 0; i < tasks.size(); i++) {
-            if (tasks.get(i).getId() == id) {
-                tasks.remove(tasks.get(i));
-            }
-        }
-    }
-
-    public static void getAllTasksInThisDay() {
-        for (int i = 0; i < tasks.size(); i++) {
-            if (tasks.get(i).getDateOfTask().toString().contains(LocalDate.now().toString())) {
-                System.out.println(tasks.get(i));
-            }
-        }
-    }
 }
 
