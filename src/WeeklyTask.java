@@ -1,8 +1,7 @@
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class WeeklyTask extends Task{
-    public WeeklyTask(String heading, String description, TypeOfTask typeOfTask) throws WrongDataOfTask {
+    public WeeklyTask(String heading, String description, TaskType typeOfTask) throws WrongDataOfTask {
         super(heading, description, typeOfTask);
     }
 
@@ -13,11 +12,5 @@ public class WeeklyTask extends Task{
                         this.getDateOfTask().getDayOfWeek();
     }
 
-    @Override
-    public void getFutureTaskDate() {
-        if (this.getDateOfTask().toLocalDate().isBefore(LocalDate.now()) || this.getDateOfTask().toLocalDate().isEqual(LocalDate.now())) {
-            LocalDate futureTaskDate = this.getDateOfTask().toLocalDate().plusWeeks(1);
-            System.out.println("Следующая дата задачи - " + futureTaskDate);
-        }
-    }
+
 }

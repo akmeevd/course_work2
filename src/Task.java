@@ -6,31 +6,16 @@ import java.util.Objects;
 
 public abstract class Task {
 
-    public enum TypeOfTask {
-        privateTask("личная задача"), WorkingTask("рабочая задача");
-        private String name;
-
-        TypeOfTask(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String toString() {
-            return "TypeOfTask{" +
-                    "name='" + name + '\'' +
-                    '}';
-        }
-    }
 
     private int id;
     private static int count;
     private String heading;
     private String description;
-    private TypeOfTask typeOfTask;
+    private TaskType typeOfTask;
     private LocalDateTime dateOfTask;
 
 
-    public Task(String heading, String description, TypeOfTask typeOfTask) throws WrongDataOfTask {
+    public Task(String heading, String description, TaskType typeOfTask) throws WrongDataOfTask {
         if (heading == null || heading.isEmpty() || heading.isBlank()) {
             throw new WrongDataOfTask("Некорректный заголовок");
         } else {
@@ -53,7 +38,6 @@ public abstract class Task {
 
     public abstract boolean appearsIn(LocalDate localDate);
 
-    public abstract void getFutureTaskDate();
 
     public String getHeading() {
         return heading;
@@ -63,7 +47,7 @@ public abstract class Task {
         return description;
     }
 
-    public TypeOfTask getTypeOfTask() {
+    public TaskType getTypeOfTask() {
         return typeOfTask;
     }
 
@@ -83,6 +67,10 @@ public abstract class Task {
     public void setDescription(String description) {
         this.description = description;
     }
+
+
+
+
 
     @Override
     public boolean equals(Object o) {

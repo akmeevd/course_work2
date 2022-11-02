@@ -2,32 +2,12 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class Main {
-    private static Map<Integer, Task> tasks = new HashMap<>();
-
-    public static void addTask(Task task) {
-        tasks.put(task.getId(), task);
-    }
-
-    private static void removeTask(int id) {
-        tasks.remove(id);
-    }
-
-    public static void getAllTasksInSpecifiedDay(LocalDate specifiedDay) {
-        for (Map.Entry<Integer, Task> task : tasks.entrySet()) {
-            if (task.getValue().appearsIn(specifiedDay)) {
-                System.out.println(task);
-            }
-
-        }
-    }
-
-
     public static void main(String[] args) throws WrongDataOfTask {
-        Task task = new DailyTask("Поход в магазин", "сходить в магазин за необходимыми продуктами", Task.TypeOfTask.privateTask);
-        Task task1 = new WeeklyTask("уборка", "прибраться дома", Task.TypeOfTask.privateTask);
-        Task task2 = new MonthlyTask("Оплата ЖКХ", "оплатить за дом", Task.TypeOfTask.privateTask);
-        Task task3 = new AnnualTask("Набор баллов НМО", "набрать 50 баллов ЗЕТ на работе за год", Task.TypeOfTask.WorkingTask);
-        Task task4 = new SingleTask("Тренировка", "позаниматься спортом", Task.TypeOfTask.privateTask);
+        Task task = new DailyTask("Поход в магазин", "сходить в магазин за необходимыми продуктами", TaskType.PRIVATE_TASK);
+        Task task1 = new WeeklyTask("уборка", "прибраться дома", TaskType.PRIVATE_TASK);
+        Task task2 = new MonthlyTask("Оплата ЖКХ", "оплатить за дом", TaskType.PRIVATE_TASK);
+        Task task3 = new AnnualTask("Набор баллов НМО", "набрать 50 баллов ЗЕТ на работе за год", TaskType.WORKING_TASK);
+        Task task4 = new SingleTask("Тренировка", "позаниматься спортом", TaskType.PRIVATE_TASK);
         try (Scanner scanner = new Scanner(System.in)) {
             label:
             while (true) {
@@ -42,12 +22,12 @@ public class Main {
                         case 2:
                             System.out.print("Введите id задачи: ");
                             int id = scanner.nextInt();
-                            removeTask(id);
+                            TaskService.removeTask(id);
                             break;
                         case 3:
                             System.out.print("Введите дату, чтоб узнать задачи на этот день:");
                             LocalDate specifiedDay = LocalDate.parse(scanner.next());
-                            getAllTasksInSpecifiedDay(specifiedDay);
+                            TaskService.getAllTasksInSpecifiedDay(specifiedDay);
                             break;
                         case 0:
                             break label;
