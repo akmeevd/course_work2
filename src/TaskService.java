@@ -12,6 +12,16 @@ public class TaskService {
     }
 
 
+    public static void removeTaskAndPutInArchive(int id) {
+        for (Map.Entry<Integer, Task> task : tasks.entrySet()) {
+            if (task.getValue().getId() == id) {
+                Task removedTask = task.getValue();
+                removedTasks.put(removedTask.getId(), removedTask);
+            }
+        }
+        removeTask(id);
+
+    }
     public static void removeTask(int id){
         if (tasks.containsKey(id)) {
             tasks.remove(id);
