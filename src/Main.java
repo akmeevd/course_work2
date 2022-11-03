@@ -2,7 +2,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws WrongDataOfTask {
+    public static void main(String[] args) throws IncorrectArgumentException   {
         Task task = new DailyTask("Поход в магазин", "сходить в магазин за необходимыми продуктами", TaskType.PRIVATE_TASK);
         Task task1 = new WeeklyTask("уборка", "прибраться дома", TaskType.PRIVATE_TASK);
         Task task2 = new MonthlyTask("Оплата ЖКХ", "оплатить за дом", TaskType.PRIVATE_TASK);

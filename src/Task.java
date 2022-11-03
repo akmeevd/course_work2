@@ -15,20 +15,32 @@ public abstract class Task {
     private LocalDateTime dateOfTask;
 
 
-    public Task(String heading, String description, TaskType typeOfTask) throws WrongDataOfTask {
+    public Task(String heading, String description, TaskType typeOfTask) throws IncorrectArgumentException {
         if (heading == null || heading.isEmpty() || heading.isBlank()) {
-            throw new WrongDataOfTask("Некорректный заголовок");
+            try {
+                throw new IncorrectArgumentException("Некорректный заголовок");
+            } catch (IncorrectArgumentException e) {
+                System.out.println(e.getMessage());
+            }
         } else {
             this.heading = heading;
         }
         if (description == null || description.isEmpty() || description.isBlank()) {
-            throw new WrongDataOfTask("Некорректне описание");
+            try {
+                throw new IncorrectArgumentException("Некорректне описание");
+            } catch (IncorrectArgumentException e) {
+                System.out.println(e.getMessage());
+            }
         } else {
             this.description = description;
         }
         this.dateOfTask = LocalDateTime.now();
         if (typeOfTask == null) {
-            throw new WrongDataOfTask("Введите тип задачи");
+            try {
+                throw new IncorrectArgumentException("Введите тип задачи");
+            } catch (IncorrectArgumentException e) {
+                System.out.println(e.getMessage());
+            }
         } else {
             this.typeOfTask = typeOfTask;
         }
@@ -58,6 +70,7 @@ public abstract class Task {
     public int getId() {
         return id;
     }
+
 
 
     public void setHeading(String heading) {

@@ -1,7 +1,7 @@
 import java.time.LocalDate;
 
 public class SingleTask extends Task{
-    public SingleTask(String heading, String description, TaskType typeOfTask) throws WrongDataOfTask {
+    public SingleTask(String heading, String description, TaskType typeOfTask) throws  IncorrectArgumentException {
         super(heading, description, typeOfTask);
     }
 
